@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Ranking Arena</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: #101025;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  text-align: center;
+  background: #202044;
+  padding: 35px 15px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+}
+
+h1 {
+  color: #00ffcc;
+  font-size: 30px;
+}
+
+.subtitle {
+  color: #ccc;
+}
+
+input {
+  display: block;
+  width: 90%;
+  max-width: 500px;
+  margin: 25px auto;
+  padding: 16px;
+  border: 2px solid #00ffcc;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+h2 {
+  text-align: center;
+  color: gold;
+}
+
+#total {
+  text-align: center;
+  font-size: 18px;
+  margin: 20px;
+}
+
+.game {
+  background: #252545;
+  padding: 25px;
+  margin: 20px auto;
+  border-radius: 20px;
+  max-width: 550px;
+  text-align: center;
+  box-shadow: 0 5px 15px #000;
+}
+
+.game h3 {
+  color: #00ffcc;
+  font-size: 25px;
+}
+
+.rank {
+  color: gold;
+  font-size: 20px;
+}
+
+button {
+  background: #00ffcc;
+  color: black;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: yellow;
+  transform: scale(1.05);
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: gray;
+}
+
+#status {
+  text-align: center;
+  color: #00ffcc;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎮 GAME RANKING ARENA 🏆</h1>
+<p class="subtitle">
+Vote for your favourite game!
+</p>
+</header>
+
+<input
+type="text"
+id="search"
+placeholder="🔍 Search your favourite game..."
+oninput="showGames()">
+
+<h2>🔥 TOP GAMES</h2>
+
+<p id="total">Total Votes: 0</p>
+
+<p id="status">Loading games...</p>
+
+<div id="games"></div>
+
+<footer>
+<p>🏆 Game Ranking Arena</p>
+<p>Made by a Gaming Fan ❤️</p>
+</footer>
+
+<script>
+
+let games = [
+{name:"Minecraft",votes:0},
+{name:"Roblox",votes:0},
+{name:"Free Fire",votes:0},
+{name:"BGMI",votes:0},
+{name:"GTA V",votes:0},
+{name:"Call of Duty",votes:0},
+{name:"Fortnite",votes:0},
+{name:"Clash of Clans",votes:0},
+{name:"Valorant",votes:0},
+{name:"PUBG",votes:0}
+];
+
+function showGames() {
+
+games.sort((a,b)=>b.votes-a.votes);
+
+let search =
+document.getElementById("search").value.toLowerCase();
+
+let html = "";
+let total = 0;
+
+games.forEach((game,index)=> {
+
+total += game.votes;
+
+if(!game.name.toLowerCase().includes(search))
+return;
+
+html += `
+<div class="game">
+
+<div class="rank">🏆 Rank ${index+1}</div>
+
+<h3>🎮 ${game.name}</h3>
+
+<p>❤️ Votes: ${game.votes}</p>
+
+<button onclick="vote('${game.name}')">
+❤️ VOTE
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("games").innerHTML=html;
+
+document.getElementById("total").innerText=
+"Total Votes: "+total;
+
+}
+
+function vote(name) {
+
+let game=games.find(g=>g.name===name);
+
+if(game) {
+game.votes++;
+showGames();
+}
+
+}
+
+showGames();
+
+document.getElementById("status").innerText=
+"Demo mode – database connection coming next.";
+
+</script>
+
+</body>
+</html>
